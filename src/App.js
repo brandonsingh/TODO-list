@@ -1,40 +1,42 @@
 import React, {Component} from 'react';
+import List from './list';
 
 class Todo extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      todos: [],
-      currentToDO: '',
+      currentTodo: '',
+      todos: []
     };
   };
 
   handleChange = (event) => {
-    console.log(event.target.value)
+    this.setState({currentTodo: event.target.value})
   };
 
 
   addItem = (event) => {
-    console.log(event.target.value)
-  };
-
-  
+    event.preventDefault();
+    console.log("addItem method fired")
+    
+    this.setState({
+      currentTodo: '',
+      todos: [...this.state.todos, this.state.currentTodo]
+  });
+}
 
   render() {
 
-
     return ( 
-      <div className="container">
+      <div>
         <form onSubmit={this.addItem}>
-          <label htmlFor="taskName">
-            Task Name: 
-          </label>
-          <input name="taskName" type="text" placeholder="Add to Todo List here" onChange={this.handleChange}/>
+          <input name="taskName" type="text" value={this.state.currentTodo} onChange={this.handleChange}/>
           <button type="Submut">Add Task</button>
         </form>
+        <List todos={this.state.todos}/>
       </div>
-    )
+    );
   }
 }
 
